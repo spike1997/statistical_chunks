@@ -1,14 +1,11 @@
 from abc import ABC
-
 import numpy as np
 import warnings
 import torch
 import torch.nn as nn
 
-
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 num_options = 5
-num_presses = 1000
 chunk_indices = np.array([1, 4, 9, 13, 16, 17])
 chucks = np.array([[0.0, 0.0, 1.0, 0.0, 0.0],
                    [0.0, 0.0, 1.0, 0.0, 0.0],
@@ -94,7 +91,7 @@ def generating_transition_matrix():
 
 
 def generating_sequence(transition_matrix):
-
+    num_presses = 1000
     sequence = np.zeros(num_presses)
 
     sequence[0] = np.random.randint(low=1, high=num_options + 1)
@@ -126,6 +123,7 @@ def generating_sequence(transition_matrix):
 
 def generating_input_output(sequence):
 
+    num_presses = len(sequence)
     total_step = num_presses - 3
     input_size = 20
     num_classes = 31
