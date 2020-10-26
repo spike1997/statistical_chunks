@@ -1,0 +1,68 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from utils import search_for_pattern
+from utils import generating_sequence
+from utils import generating_input_output
+from utils import RNN
+import torch
+import torch.nn as nn
+from utils import generating_transition_matrix
+
+
+# Device configuration
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+# from utils import estimating_transition_matrix
+
+num_options = 5
+num_presses = 1000
+
+# Hyper-parameters
+sequence_length = 1
+input_size = 20
+hidden_size = 128
+num_layers = 2
+output_size = 31
+batch_size = 1
+num_epochs = 100
+learning_rate = 0.01
+
+model = RNN(input_size, hidden_size, num_layers, output_size).to(device)
+
+# inp = torch.from_numpy(np.zeros((20, 1)).reshape(-1, sequence_length, input_size)).to(device)
+# print(inp.shape)
+# model(inp.float())
+#
+# Loss and optimizer
+# criterion = nn.CrossEntropyLoss()
+criterion = nn.MSELoss()
+optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+
+# Train the model
+total_step = num_presses-3
+
+transition_matrix = generating_transition_matrix()
+
+for epoch in range(num_epochs):
+
+    sequence = generating_sequence(transition_matrix)
+    # transition_matrix_estimation = estimating_transition_matrix(sequence)
+    # generating input output of the network
+    x, y = generating_input_output(sequence)
+
+    for i_step in range(total_step):
+
+        images = torch.from_numpy(x[:, i_step].reshape(-1, sequence_length, input_size)).to(device)
+        labels = torch.from_numpy(y[:, i_step].reshape(-1, output_size)).to(device)
+
+        # Forward pass
+        outputs = model(images.float())
+        loss = criterion(outputs, labels.float())
+
+        # Backward and optimize
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+        if (i_step + 1) % 100 == 0:
+            print('Epoch [{}/{}], Step [{}/{}], Loss: {:.4f}'
+                  .format(epoch + 1, num_epochs, i_step + 1, total_step, loss.item()))
