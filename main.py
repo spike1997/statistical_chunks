@@ -86,21 +86,7 @@ for epoch in range(num_epochs):
             print('Epoch [{}/{}], Step [{}/{}], Loss: {:.4f}'
                   .format(epoch + 1, num_epochs, i_step + 1, total_step, loss.item()))
 
-sequence_test = np.array([1, 2, 3, 3, 4, 5])
-x_test, y_test = generating_input_output(sequence_test)
 
-# Test the model
-model.eval()
-with torch.no_grad():
-    correct = 0
-    total = 0
-    for i_step in range(x_test.shape[1]):
-        x_input_test = torch.from_numpy(x_test[:, i_step].reshape(-1, sequence_length, input_size)).to(device)
-        outputs = model(x_input_test.float())
-
-        print('speed: {} %'.format(outputs[0, -1]))
-
-# Save the model checkpoint
-#     print(outputs.shape)
+# print(outputs.shape)
 torch.save(model.state_dict(), 'model.ckpt')
 
