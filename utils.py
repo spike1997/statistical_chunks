@@ -130,8 +130,8 @@ def generating_input_output(sequence):
 
     n = 3
 
-    x = np.zeros((input_size, total_step))
-    y = np.zeros((output_size, total_step))
+    x = np.zeros((input_size, total_step-1))
+    y = np.zeros((output_size, total_step-1))
 
     for i_step in range(1, total_step):
 
@@ -152,7 +152,8 @@ def generating_input_output(sequence):
                 (visible_numbers[1:] == np.array([2, 5, 4])).all() or \
                 (visible_numbers[1:] == np.array([4, 3, 3])).all():
             y[20, i_step-1] = 4
-            y[20, i_step] = 4
+            if i_step <= total_step-2:
+                y[20, i_step] = 4
     return x, y
 
 
