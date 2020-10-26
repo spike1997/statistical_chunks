@@ -45,32 +45,43 @@ transition_matrix = generating_transition_matrix()
 flag = 1
 while flag:
     _, dist_chunk = generating_sequence(transition_matrix)
-    if len(np.where(dist_chunk==0)[0]) == 2:
+    if len(np.where(dist_chunk==0)[0]) == 0:
         flag = 0
     else:
         transition_matrix = generating_transition_matrix()
 
-for epoch in range(num_epochs):
+# print(dist_chunk)
+#
+# sequence, _ = generating_sequence(transition_matrix)
+#
+# c = search_for_pattern(sequence, [1, 5, 3])
+#
+# x, y = generating_input_output(sequence)
+# #
+# print(y[:,c[0]])
 
-    sequence = generating_sequence(transition_matrix)
-    # transition_matrix_estimation = estimating_transition_matrix(sequence)
-    # generating input output of the network
-    x, y = generating_input_output(sequence)
-
-    for i_step in range(total_step):
-
-        x_input = torch.from_numpy(x[:, i_step].reshape(-1, sequence_length, input_size)).to(device)
-        y_output = torch.from_numpy(y[:, i_step].reshape(-1, output_size)).to(device)
-
-        # Forward pass
-        outputs = model(x_input.float())
-        loss = criterion(outputs, y_output.float())
-
-        # Backward and optimize
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
-
-        if (i_step + 1) % 100 == 0:
-            print('Epoch [{}/{}], Step [{}/{}], Loss: {:.4f}'
-                  .format(epoch + 1, num_epochs, i_step + 1, total_step, loss.item()))
+# for epoch in range(num_epochs):
+#
+#     sequence = generating_sequence(transition_matrix)
+#     # transition_matrix_estimation = estimating_transition_matrix(sequence)
+#     # generating input output of the network
+#     x, y = generating_input_output(sequence)
+#
+#     for i_step in range(total_step):
+#
+#         x_input = torch.from_numpy(x[:, i_step].reshape(-1, sequence_length, input_size)).to(device)
+#         y_output = torch.from_numpy(y[:, i_step].reshape(-1, output_size)).to(device)
+#
+#         # Forward pass
+#         outputs = model(x_input.float())
+#         loss = criterion(outputs, y_output.float())
+#
+#         # Backward and optimize
+#         optimizer.zero_grad()
+#         loss.backward()
+#         optimizer.step()
+#
+#         if (i_step + 1) % 100 == 0:
+#             print('Epoch [{}/{}], Step [{}/{}], Loss: {:.4f}'
+#                   .format(epoch + 1, num_epochs, i_step + 1, total_step, loss.item()))
+#

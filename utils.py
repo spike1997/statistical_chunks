@@ -108,11 +108,14 @@ def generating_sequence(transition_matrix):
     chuck_indicator_vector = np.zeros_like(sequence)
 
     dist_chunk = np.zeros((len(chunk_indices)))
+    training_chunks = np.array([[1, 2, 3],
+                                [1, 5, 3],
+                                [2, 5, 4],
+                                [3, 4, 5],
+                                [4, 2, 1],
+                                [4, 3, 3]])
     for i_chunk in range(len(chunk_indices)):
-        b = np.remainder(chunk_indices[i_chunk]+1, num_options)
-        a = (chunk_indices[i_chunk] + 1 - b) / 5 + 1
-        c = np.where(chucks[i_chunk] == 1)[0][0] + 1
-        chuck = np.array([a, b, c])
+        chuck = training_chunks[i_chunk, :]
         chuck_indicator_vector[search_for_pattern(sequence, chuck)] = 1
         dist_chunk[i_chunk] = len(search_for_pattern(sequence, chuck))
         # print(len(search_for_pattern(sequence, chuck)))
@@ -153,6 +156,7 @@ def generating_input_output(sequence):
                 (visible_numbers[:-1] == np.array([2, 5, 4])).all() or \
                 (visible_numbers[:-1] == np.array([4, 3, 3])).all():
             y[30, i_step] = 1
+            y[30, i_step+1] = 1
     return x, y
 
 
