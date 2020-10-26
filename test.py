@@ -29,7 +29,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 input_size = 15
 hidden_size = 128
-num_layers = 2
+num_layers = 1
 output_size = 21
 sequence_length = 1
 
