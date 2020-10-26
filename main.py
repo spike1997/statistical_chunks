@@ -18,12 +18,12 @@ num_presses = 1000
 
 # Hyper-parameters
 sequence_length = 1
-input_size = 20
+input_size = 15
 hidden_size = 128
 num_layers = 2
-output_size = 31
+output_size = 21
 batch_size = 1
-num_epochs = 2
+num_epochs = 50
 learning_rate = 0.01
 
 model = RNN(input_size, hidden_size, num_layers, output_size).to(device)
@@ -62,7 +62,6 @@ while flag:
 # print(y[:,c[0]])
 
 for epoch in range(num_epochs):
-
     sequence, _ = generating_sequence(transition_matrix)
     # transition_matrix_estimation = estimating_transition_matrix(sequence)
     # generating input output of the network
@@ -82,11 +81,12 @@ for epoch in range(num_epochs):
         loss.backward()
         optimizer.step()
 
-        if (i_step + 1) % 100 == 0:
+        if (i_step + 1) % total_step == 0:
             print('Epoch [{}/{}], Step [{}/{}], Loss: {:.4f}'
                   .format(epoch + 1, num_epochs, i_step + 1, total_step, loss.item()))
 
 
 # print(outputs.shape)
 torch.save(model.state_dict(), 'model.ckpt')
+np.save('transition_matrix.npy',transition_matrix)
 

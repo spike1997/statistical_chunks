@@ -126,23 +126,24 @@ def generating_input_output(sequence):
     num_presses = len(sequence)
     total_step = num_presses - 2
     input_size = 15
-    num_classes = 21
+    output_size = 21
+
     n = 3
 
     x = np.zeros((input_size, total_step))
-    y = np.zeros((num_classes, total_step))
+    y = np.zeros((output_size, total_step))
 
     for i_step in range(1, total_step):
 
         visible_numbers = sequence[i_step-1:i_step + n]
-        x[int(visible_numbers[1] + 0 - 1), i_step] = 1
-        x[int(visible_numbers[2] + 5 - 1), i_step] = 1
-        x[int(visible_numbers[3] + 10 - 1), i_step] = 1
+        x[int(visible_numbers[1] + 0 - 1), i_step-1] = 1
+        x[int(visible_numbers[2] + 5 - 1), i_step-1] = 1
+        x[int(visible_numbers[3] + 10 - 1), i_step-1] = 1
 
-        y[int(visible_numbers[0] + 0 - 1), i_step] = 1
-        y[int(visible_numbers[1] + 5 - 1), i_step] = 2
-        y[int(visible_numbers[2] + 10 - 1), i_step] = 1.5
-        y[int(visible_numbers[3] + 15 - 1), i_step] = 1
+        y[int(visible_numbers[0] + 0 - 1), i_step-1] = 1
+        y[int(visible_numbers[1] + 5 - 1), i_step-1] = 2
+        y[int(visible_numbers[2] + 10 - 1), i_step-1] = 1.5
+        y[int(visible_numbers[3] + 15 - 1), i_step-1] = 1
 
         if (visible_numbers[1:] == np.array([1, 2, 3])).all() or \
                 (visible_numbers[1:] == np.array([3, 4, 5])).all() or \
@@ -150,8 +151,8 @@ def generating_input_output(sequence):
                 (visible_numbers[1:] == np.array([1, 5, 3])).all() or \
                 (visible_numbers[1:] == np.array([2, 5, 4])).all() or \
                 (visible_numbers[1:] == np.array([4, 3, 3])).all():
+            y[20, i_step-1] = 4
             y[20, i_step] = 4
-            y[20, i_step+1] = 4
     return x, y
 
 

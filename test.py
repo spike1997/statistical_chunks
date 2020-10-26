@@ -8,7 +8,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 input_size = 20
 hidden_size = 128
 num_layers = 2
-output_size = 31
+output_size = 21
 sequence_length = 1
 
 model = RNN(input_size, hidden_size, num_layers, output_size).to(device)
