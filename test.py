@@ -17,7 +17,6 @@ model.load_state_dict(torch.load('model.ckpt'))
 sequence_test = np.array([1, 2, 3, 3, 4, 5])
 x_test, y_test = generating_input_output(sequence_test)
 
-
 # Test the model
 model.eval()
 with torch.no_grad():
