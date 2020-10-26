@@ -107,16 +107,18 @@ def generating_sequence(transition_matrix):
     # overlapping chunks! is there any in the sequence?
     chuck_indicator_vector = np.zeros_like(sequence)
 
+    dist_chunk = np.zeros((len(chunk_indices)))
     for i_chunk in range(len(chunk_indices)):
         b = np.remainder(chunk_indices[i_chunk]+1, num_options)
         a = (chunk_indices[i_chunk] + 1 - b) / 5 + 1
         c = np.where(chucks[i_chunk] == 1)[0][0] + 1
         chuck = np.array([a, b, c])
         chuck_indicator_vector[search_for_pattern(sequence, chuck)] = 1
+        dist_chunk[i_chunk] = len(search_for_pattern(sequence, chuck))
         # print(len(search_for_pattern(sequence, chuck)))
     # np.sum(np.dot(chuck_indicator_vector, np.roll(chuck_indicator_vector, -2)))
 
-    return sequence
+    return sequence, dist_chunk
 
 
 def generating_input_output(sequence):

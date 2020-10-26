@@ -23,7 +23,7 @@ hidden_size = 128
 num_layers = 2
 output_size = 31
 batch_size = 1
-num_epochs = 100
+num_epochs = 0
 learning_rate = 0.01
 
 model = RNN(input_size, hidden_size, num_layers, output_size).to(device)
@@ -42,6 +42,14 @@ total_step = num_presses-3
 
 transition_matrix = generating_transition_matrix()
 
+flag = 1
+while flag:
+    _, dist_chunk = generating_sequence(transition_matrix)
+    if len(np.where(dist_chunk==0)[0]) == 2:
+        flag = 0
+    else:
+        transition_matrix = generating_transition_matrix()
+
 for epoch in range(num_epochs):
 
     sequence = generating_sequence(transition_matrix)
@@ -51,12 +59,12 @@ for epoch in range(num_epochs):
 
     for i_step in range(total_step):
 
-        images = torch.from_numpy(x[:, i_step].reshape(-1, sequence_length, input_size)).to(device)
-        labels = torch.from_numpy(y[:, i_step].reshape(-1, output_size)).to(device)
+        x_input = torch.from_numpy(x[:, i_step].reshape(-1, sequence_length, input_size)).to(device)
+        y_output = torch.from_numpy(y[:, i_step].reshape(-1, output_size)).to(device)
 
         # Forward pass
-        outputs = model(images.float())
-        loss = criterion(outputs, labels.float())
+        outputs = model(x_input.float())
+        loss = criterion(outputs, y_output.float())
 
         # Backward and optimize
         optimizer.zero_grad()
