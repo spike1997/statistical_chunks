@@ -69,8 +69,6 @@ with torch.no_grad():
         x_test1, _ = generating_input_output(sequence_test1[i_sequence, :])
         x_test2, _ = generating_input_output(sequence_test2[i_sequence, :])
 
-        print(x_test1.shape[1])
-
         for i_step in range(x_test1.shape[1]):
             x_input_test = torch.from_numpy(x_test1[:, i_step].reshape(-1, sequence_length, input_size)).to(device)
             outputs = model(x_input_test.float())
@@ -82,3 +80,6 @@ with torch.no_grad():
             outputs = model(x_input_test.float())
 
             output_test2[i_step, i_sequence] = outputs[0, -1]
+
+
+print(np.mean(output_test2, axis=1))
