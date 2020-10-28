@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from utils import search_for_pattern
 from utils import generating_sequence
 from utils import generating_input_output
+from utils import LSTM
 from utils import RNN
 import torch
 import torch.nn as nn
@@ -26,7 +27,7 @@ batch_size = 1
 num_epochs = 50
 learning_rate = 0.01
 
-model = RNN(input_size, hidden_size, num_layers, output_size).to(device)
+model = LSTM(input_size, hidden_size, num_layers, output_size).to(device)
 
 # inp = torch.from_numpy(np.zeros((20, 1)).reshape(-1, sequence_length, input_size)).to(device)
 # print(inp.shape)
@@ -87,6 +88,6 @@ for epoch in range(num_epochs):
 
 
 # print(outputs.shape)
-torch.save(model.state_dict(), 'model.ckpt')
+torch.save(model.state_dict(), 'model_LSTM.ckpt')
 np.save('transition_matrix.npy',transition_matrix)
 

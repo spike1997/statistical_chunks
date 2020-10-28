@@ -1,3 +1,4 @@
+from utils import LSTM
 from utils import RNN
 import numpy as np
 import torch
@@ -33,8 +34,8 @@ num_layers = 1
 output_size = 21
 sequence_length = 1
 
-model = RNN(input_size, hidden_size, num_layers, output_size).to(device)
-model.load_state_dict(torch.load('model.ckpt'))
+model = LSTM(input_size, hidden_size, num_layers, output_size).to(device)
+model.load_state_dict(torch.load('model_LSTM.ckpt'))
 
 sequence_test1 = np.array([[1, 2, 3, 4, 5],
                            [4, 3, 3, 4, 5],
@@ -106,4 +107,6 @@ ax.set_xticklabels(('G1', 'G2', 'G3'))
 
 ax.legend((test1[0], test2[0]), ('overlap', 'non overlap'))
 
+plt.savefig('LSTM.pdf')
 plt.show()
+
