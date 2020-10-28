@@ -82,4 +82,28 @@ with torch.no_grad():
             output_test2[i_step, i_sequence] = outputs[0, -1]
 
 
-print(np.mean(output_test2, axis=1))
+test1_mean = np.zeros(3)
+test1_mean[np.array([0, 2])] = np.mean(output_test1, axis=1)
+test2_mean = np.mean(output_test2, axis=1)
+
+test1_std = np.zeros(3)
+test1_std[np.array([0, 2])] = np.std(output_test1, axis=1)
+test2_std = np.std(output_test2, axis=1)
+
+n = 3
+ind = np.arange(n)  # the x locations for the groups
+width = 0.35       # the width of the bars
+
+fig, ax = plt.subplots()
+test1 = ax.bar(ind, test1_mean, width, color=[0.5, 0.5, 1], yerr=test1_std, error_kw=dict(lw=5, capsize=5, capthick=3))
+test2 = ax.bar(ind + width, test2_mean, width, color=[1, 0.5, 0.5], yerr=test2_std, error_kw=dict(lw=5, capsize=5, capthick=3))
+
+# add some text for labels, title and axes ticks
+ax.set_ylabel('Scores')
+ax.set_title('Scores by group and gender')
+ax.set_xticks(ind + width / 2)
+ax.set_xticklabels(('G1', 'G2', 'G3'))
+
+ax.legend((test1[0], test2[0]), ('overlap', 'non overlap'))
+
+plt.show()
