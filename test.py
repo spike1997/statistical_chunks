@@ -7,26 +7,27 @@ import matplotlib.pyplot as plt
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-# transition_matrix = np.load('transition_matrix.npy')
-#
-# num_options = 5
-#
-# xticks = ['1', '2', '3', '4', '5']
-# yticks = ['11', '12', '13', '14', '15',
-#           '21', '22', '23', '24', '25',
-#           '31', '32', '33', '34', '35',
-#           '41', '42', '43', '44', '45',
-#           '51', '52', '53', '54', '55']
-#
-# plt.rcParams['xtick.bottom'] = plt.rcParams['xtick.labelbottom'] = False
-# plt.rcParams['xtick.top'] = plt.rcParams['xtick.labeltop'] = True
-#
-# plt.imshow(transition_matrix, cmap='magma', interpolation='nearest')
-# plt.xticks(np.arange(num_options),xticks, fontsize=9)
-# plt.yticks(np.arange(num_options**2), yticks, fontsize=9)
-# plt.colorbar()
-#
-# plt.show()
+transition_matrix = np.load('transition_matrix.npy')
+
+num_options = 5
+
+xticks = ['1', '2', '3', '4', '5']
+yticks = ['11', '12', '13', '14', '15',
+          '21', '22', '23', '24', '25',
+          '31', '32', '33', '34', '35',
+          '41', '42', '43', '44', '45',
+          '51', '52', '53', '54', '55']
+
+plt.rcParams['xtick.bottom'] = plt.rcParams['xtick.labelbottom'] = False
+plt.rcParams['xtick.top'] = plt.rcParams['xtick.labeltop'] = True
+
+plt.imshow(transition_matrix, cmap='magma', interpolation='nearest')
+plt.xticks(np.arange(num_options),xticks, fontsize=9)
+plt.yticks(np.arange(num_options**2), yticks, fontsize=9)
+plt.colorbar()
+
+plt.savefig('transition_matrix.pdf')
+plt.show()
 
 input_size = 15
 hidden_size = 128
