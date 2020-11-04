@@ -89,5 +89,5 @@ for epoch in range(num_epochs):
 
 # print(outputs.shape)
 torch.save(model.state_dict(), 'model_LSTM.ckpt')
-np.save('transition_matrix.npy',transition_matrix)
+np.save('transition_matrix.npy', transition_matrix)
 
